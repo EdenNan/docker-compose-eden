@@ -326,14 +326,12 @@ services:
       - '9300:9300'     #http通信端口
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - discovery.type=single-node
-    networks:
-      - esnet
     privileged: true    #环境变量
     volumes:
-      - ./external_config/es/data:/usr/share/elasticsearch/data
-      - ./external_config/es/plugins:/usr/share/elasticsearch/plugins
-      - ./external_config/es/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - type: bind
+        source: ./external_config/elasticsearch/elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+
 
   elasticsearch1:
     container_name: elasticsearch1
@@ -343,14 +341,11 @@ services:
       - '9301:9300'     #http通信端口
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - discovery.type=single-node
-    networks:
-      - esnet
     privileged: true    #环境变量
-    #    volumes:
-    #      - ./external_config/es/data:/usr/share/elasticsearch/data
-    #      - ./external_config/es/plugins:/usr/share/elasticsearch/plugins
-    #      - ./external_config/es/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    volumes:
+      - type: bind
+        source: ./external_config/elasticsearch/elasticsearch1.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
 
   elasticsearch2:
     container_name: elasticsearch2
@@ -359,11 +354,12 @@ services:
       - '9202:9200'     #java、集群通信端口
       - '9302:9300'     #http通信端口
     environment:
-       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-       - discovery.type=single-node
-    networks:
-      - esnet
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     privileged: true    #环境变量
+    volumes:
+      - type: bind
+        source: ./external_config/elasticsearch/elasticsearch2.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
 
   kibana:
     container_name: kibana

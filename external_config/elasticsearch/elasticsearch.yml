@@ -1,7 +1,7 @@
 cluster:
   name: elasticsearch-cluster
   initial_master_nodes: 2
-node.name: es-node1
+node.name: es-node
 network.host: 0.0.0.0
 #network.publish_host: 192.168.212.252
 http.port: 9200
