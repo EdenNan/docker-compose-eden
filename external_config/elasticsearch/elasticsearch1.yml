@@ -1,6 +1,6 @@
 cluster:
   name: elasticsearch-cluster
-  initial_master_nodes: 2
+  initial_master_nodes: ["es-node","es-node1","es-node2"]
 node.name: es-node1
 network.host: 0.0.0.0
 #network.publish_host: 192.168.212.252
@@ -10,4 +10,4 @@ http.cors.enabled: true
 http.cors.allow-origin: "*"
 node.master: true
 node.data: true
-discovery.seed_hosts: ["elasticsearch:9300","elasticsearch1:9300","elasticsearch2:9300"]
+discovery.seed_hosts: ["elasticsearch1:9300","elasticsearch2:9300"]
