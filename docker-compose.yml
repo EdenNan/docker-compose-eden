@@ -318,3 +318,59 @@ services:
     volumes:
       - ./conf.d:/etc/nginx/conf.d
 
+  elasticsearch:
+    container_name: elasticsearch
+    image: elasticsearch:7.6.2
+    ports:
+      - '9200:9200'     #java、集群通信端口
+      - '9300:9300'     #http通信端口
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    networks:
+      - esnet
+    privileged: true    #环境变量
+#    volumes:
+#      - ./external_config/es/data:/usr/share/elasticsearch/data
+#      - ./external_config/es/plugins:/usr/share/elasticsearch/plugins
+#      - ./external_config/es/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+
+  elasticsearch1:
+    container_name: elasticsearch1
+    image: elasticsearch:7.6.2
+    ports:
+      - '9201:9200'     #java、集群通信端口
+      - '9301:9300'     #http通信端口
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    networks:
+      - esnet
+    privileged: true    #环境变量
+    #    volumes:
+    #      - ./external_config/es/data:/usr/share/elasticsearch/data
+    #      - ./external_config/es/plugins:/usr/share/elasticsearch/plugins
+    #      - ./external_config/es/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+
+  elasticsearch2:
+    container_name: elasticsearch2
+    image: elasticsearch:7.6.2
+    ports:
+      - '9202:9200'     #java、集群通信端口
+      - '9302:9300'     #http通信端口
+    environment:
+       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+       - discovery.type=single-node
+    networks:
+      - esnet
+    privileged: true    #环境变量
+
+  kibana:
+    container_name: kibana
+    image: kibana:7.6.2
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
