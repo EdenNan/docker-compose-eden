@@ -182,7 +182,7 @@ services:
   #   restart: always
   #   volumes:
   #     - ./data_storage/elasticsearch1:/usr/share/elasticsearch/data
-  #     - ./external_config/elasticsearch/elasticsearch1.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+  #     - ./external_config/elasticsearch/elasticsearch1.yml:/usr/share/elasticsearch/config/application.yml
   #   ports:
   #     - 9200:9200
   #     - 9300:9300
@@ -195,7 +195,7 @@ services:
   #   restart: always
   #   volumes:
   #     - ./data_storage/elasticsearch2:/usr/share/elasticsearch/data
-  #     - ./external_config/elasticsearch/elasticsearch2.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+  #     - ./external_config/elasticsearch/elasticsearch2.yml:/usr/share/elasticsearch/config/application.yml
   #   ports:
   #     - 9201:9200
   #     - 9301:9300
@@ -370,3 +370,42 @@ services:
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200
     depends_on:
       - elasticsearch
+
+  oap:
+    image: apache/skywalking-oap-server:8.3.0-es7
+    container_name: skywalking-oap
+    depends_on:
+      - elasticsearch
+    links:
+      - elasticsearch
+    ports:
+      - 11800:11800
+      - 12800:12800
+    healthcheck:
+      test: [ "CMD-SHELL", "/skywalking/bin/swctl" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    environment:
+      TZ: Asia/Shanghai
+      SW_STORAGE: elasticsearch7
+      SW_STORAGE_ES_CLUSTER_NODES: elasticsearch:9200
+#    volumes:
+#      - type: bind
+#        source: ./external_config/skyWalking/application.yml
+#        target: /skywalking/config/application.yml
+
+
+  ui:
+    image: apache/skywalking-ui:8.3.0
+    container_name: skywalking-ui
+    depends_on:
+      - oap
+    links:
+      - oap
+    ports:
+      - 8082:8080
+    environment:
+      TZ: Asia/Shanghai
+      SW_OAP_ADDRESS: oap:12800

@@ -10,4 +10,4 @@ http.cors.enabled: true
 http.cors.allow-origin: "*"
 node.master: true
 node.data: true
-discovery.seed_hosts: ["elasticsearch:9300","elasticsearch2:9300"]
+discovery.seed_hosts: ["elasticsearch1:9300","elasticsearch2:9300"]
