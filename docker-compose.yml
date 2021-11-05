@@ -1,298 +1,6 @@
 version: '3.7'
 
 services:
-
-#  zookeeper:
-#    image: gaven/zookeeper
-#    container_name: zookeeper
-#    restart: always
-#    volumes:
-#      - ./data_storage/zookeeper/data:/data
-#      - ./data_storage/zookeeper/datalog:/datalog
-#    ports:
-#      - 2181:2181
-
-  # hbase:
-  #   image: harisekhon/hbase
-  #   container_name: hbase
-  #   restart: always
-  #   volumes:
-  #     - ./data_storage/hbase:/hbase-data
-  #   ports:
-  #     - 2181:2181
-  #     - 8080:8080
-  #     - 8085:8085
-  #     - 9090:9090
-  #     - 9095:9095
-  #     - 16000:16000
-  #     - 16010:16010
-  #     - 16201:16201
-  #     - 16301:16301
-  #     - 16030:16030
-  #     - 16020:16020
-
-#  kafka:
-#    image: gaven/kafka:zk-built-in
-#    container_name: kafka
-#    restart: always
-#    volumes:
-#      - ./data_storage/kafka/zookeeper/data:/opt/zookeeper/data
-#      - ./data_storage/kafka/zookeeper/datalog:/opt/zookeeper/datalog
-#      - ./data_storage/kafka/data:/opt/kafka/kafka-logs
-#    ports:
-#      - 9092:9092
-#      - 2180:2181
-#    environment:
-#      - ZOO_PORT=2181
-#
-#  pulsar:
-#    image: apachepulsar/pulsar:2.8.0
-#    container_name: pulsar
-#    command: bin/pulsar standalone
-#    restart: always
-#    volumes:
-#      - ./data_storage/pulsar/data:/pulsar/data
-#    ports:
-#      - 6650:6650
-#      - 8080:8080
-#
-#  redis:
-#    image: redis:alpine
-#    container_name: redis
-#    restart: always
-#    volumes:
-#      - ./data_storage/redis:/data
-#    ports:
-#      - 6379:6379
-#
-#  mongo:
-#    image: mongo:3-xenial
-#    container_name: mongo
-#    restart: always
-#    volumes:
-#      - ./data_storage/mongo:/data/db
-#    ports:
-#      - 27017:27017
-#    environment:
-#      - MONGO_INITDB_ROOT_USERNAME=test
-#      - MONGO_INITDB_ROOT_PASSWORD=test
-
-  # impala-kudu:
-  #   image: josemyd/all-in-one-impala-kudu
-  #   container_name: impala-kudu
-  #   restart: always
-  #   ports:
-  #     - 7050:7050
-  #     - 7051:7051
-  #     - 8050:8050 
-  #     - 8051:8051
-  #     - 21000:21000
-  #     - 21050:21050
-  #     - 25000:25000
-  #     - 25010:25010
-  #     - 25020:25020
-
-  # mysql:
-  #   image: mysql:5.7
-  #   container_name: mysql
-  #   restart: always
-  #   # command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --character-set-client-handshake=0
-  #   volumes:
-  #     - ./external_config/mysql:/etc/mysql/conf.d
-  #     - ./data_storage/mysql:/var/lib/mysql
-  #   ports:
-  #     - 3306:3306
-  #   environment:
-  #     - MYSQL_USER=mysql
-  #     - MYSQL_PASSWORD=mysql
-  #     - MYSQL_ROOT_PASSWORD=root
-
-  #  elasticsearch:
-  #    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
-  #    container_name: elasticsearch
-  #    restart: always
-  #    volumes:
-  #      - ./data_storage/elasticsearch:/usr/share/elasticsearch/data
-  #    ports:
-  #      - 9200:9200
-  #      - 9300:9300
-  #    environment:
-  #      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-  #      - "discovery.type=single-node"
-
-  #  rabbitmq:
-  #    image: rabbitmq:management-alpine
-  #    container_name: rabbitmq
-  #    restart: always
-  #    volumes:
-  #      - ./data_storage/rabbitmq:/var/lib/rabbitmq
-  #    ports:
-  #      - 5672:5672
-  #      - 15672:15672
-
-  #  kibana:
-  #    image: docker.elastic.co/kibana/kibana:7.3.0
-  #    container_name: kibana
-  #    restart: always
-  #    ports:
-  #      - 5601:5601
-  #    environment:
-  #      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-  #    depends_on:
-  #      - elasticsearch
-
-  #  kafka:
-  #    image: gaven/kafka
-  #    container_name: kafka
-  #    restart: always
-  #    volumes:
-  #      - ./data_storage/kafka:/tmp/kafka-logs
-  #    ports:
-  #      - 9092:9092
-  #      # - 9000:9000
-  #    environment:
-  #      - ZOOKEEPER_CONNECT=zookeeper:2181
-  #      - ADVERTISED_LISTENERS=192.168.200.101:9092
-  #    depends_on:
-  #      - zookeeper
-
-  # codis:
-  #   image: gaven/codis
-  #   container_name: codis
-  #   restart: always
-  #   volumes:
-  #     - ./data_storage/codis:/data
-  #   ports:
-  #     - 6380-6385:6380-6385
-  #     - 18090:18090
-  #     - 19000-19002:19000-19002
-  #   environment:
-  #     - ZOOKEEPER_CONNECT=zookeeper:2181
-  #     - PROXY_NUM=1
-  #     - GROUP_NUM=2
-  #     - SLAVE_NUM_PER_GROUP=1
-  #     - AUTO_ASSIGN_SLOTS=true
-  #     - ADD_EXTRA_REDIS=false
-  #   depends_on:
-  #     - zookeeper
-
-  # elasticsearch1:
-  #   image: elasticsearch:alpine
-  #   container_name: elasticsearch1
-  #   restart: always
-  #   volumes:
-  #     - ./data_storage/elasticsearch1:/usr/share/elasticsearch/data
-  #     - ./external_config/elasticsearch/elasticsearch1.yml:/usr/share/elasticsearch/config/application.yml
-  #   ports:
-  #     - 9200:9200
-  #     - 9300:9300
-  #   environment:
-  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-
-  # elasticsearch2:
-  #   image: elasticsearch:alpine
-  #   container_name: elasticsearch2
-  #   restart: always
-  #   volumes:
-  #     - ./data_storage/elasticsearch2:/usr/share/elasticsearch/data
-  #     - ./external_config/elasticsearch/elasticsearch2.yml:/usr/share/elasticsearch/config/application.yml
-  #   ports:
-  #     - 9201:9200
-  #     - 9301:9300
-  #   environment:
-  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-
-  # oracle:
-  #   image: sath89/oracle-12c
-  #   container_name: oracle
-  #   restart: always
-  #   volumes:
-  #     - ./data_storage/oracle:/u01/app/oracle
-  #   ports:
-  #     - 1521:1521
-  #   environment:
-  #     - DBCA_TOTAL_MEMORY=1024
-
-  # registry:
-  #   image: registry
-  #   container_name: registry
-  #   restart: always
-  #   volumes:
-  #     # - ./external_config/registry/certs:/certs
-  #     - ./external_config/registry/auth:/auth
-  #     - ./data_storage/registry:/var/lib/registry
-  #   ports:
-  #     - 80:80
-  #   environment:
-  #     - REGISTRY_HTTP_ADDR=0.0.0.0:80
-  #     # - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt
-  #     # - REGISTRY_HTTP_TLS_KEY=/certs/domain.key
-  #     - REGISTRY_AUTH=htpasswd
-  #     - REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm
-  #     - REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd
-  #     # docker login registry.gavin.com username/password = gavin/gavin
-
-  # filebeat:
-  #   image: gaven/filebeat:5.5.0
-  #   container_name: filebeat
-  #   restart: always
-  #   volumes:
-  #     - /opt/log/stash:/input
-  #   environment:
-  #     - ELASTICSEARCH_ENDPOINT=elasticsearch:9200
-  #     - HOSTNAME=macos
-  #   depends_on:
-  #     - elasticsearch
-
-  # logstash:
-  #   image: logstash
-  #   container_name: logstash
-  #   restart: always
-  #   command: logstash -f /config/logstash.conf
-  #   # command: logstash -e 'input { udp { port => 4560 codec => json } } output { elasticsearch { hosts => "elasticsearch:9200" } }'
-  #   # ports:
-  #   #   - 4560:4560/udp
-  #   volumes:
-  #     - ./external_config/logstash:/config
-  #   depends_on:
-  #     - elasticsearch
-
-  # haproxy:
-  #   image: haproxy:alpine
-  #   container_name: haproxy
-  #   restart: always
-  #   volumes:
-  #     - ./external_config/haproxy:/usr/local/etc/haproxy:ro
-  #   ports:
-  #     - 9999:9999
-
-  # nexus:
-  #   image: sonatype/nexus3
-  #   container_name: nexus
-  #   restart: always
-  #   volumes:
-  #     # chown -R 200 ../data_storage/nexus
-  #     - ./data_storage/nexus:/nexus-data
-  #   ports:
-  #     - 8081:8081
-
-  # redis-sentinel:
-  #   image: yesuagg/redis-sentinel-cluster:0.1.0
-  #   container_name: redis-sentinel
-  #   restart: always
-  #   ports:
-  #     - 6379-6381:6379-6381
-  #     - 26379-26381:26379-26381
-
-  # redis-cluster:
-  #   image: gaven/redis-cluster
-  #   container_name: redis-cluster
-  #   restart: always
-  #   ports:
-  #     - 7000-7005:7000-7005
-  #   environment:
-  #     - CLUSTER_ONLY=true
-
   jobmanager:
     image: flink:1.9.0-scala_2.12
     ports:
@@ -321,6 +29,7 @@ services:
   elasticsearch:
     container_name: elasticsearch
     image: elasticsearch:7.6.2
+    restart: always
     ports:
       - '9200:9200'     #java、集群通信端口
       - '9300:9300'     #http通信端口
@@ -336,6 +45,7 @@ services:
   elasticsearch1:
     container_name: elasticsearch1
     image: elasticsearch:7.6.2
+    restart: always
     ports:
       - '9201:9200'     #java、集群通信端口
       - '9301:9300'     #http通信端口
@@ -350,6 +60,7 @@ services:
   elasticsearch2:
     container_name: elasticsearch2
     image: elasticsearch:7.6.2
+    restart: always
     ports:
       - '9202:9200'     #java、集群通信端口
       - '9302:9300'     #http通信端口
@@ -368,12 +79,14 @@ services:
       - "5601:5601"
     environment:
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+#       ELASTICSEARCH_HOSTS: http://host.docker.internal:19200
     depends_on:
       - elasticsearch
 
   oap:
     image: apache/skywalking-oap-server:8.3.0-es7
     container_name: skywalking-oap
+    restart: always
     depends_on:
       - elasticsearch
     links:
@@ -400,6 +113,7 @@ services:
   ui:
     image: apache/skywalking-ui:8.3.0
     container_name: skywalking-ui
+    restart: always
     depends_on:
       - oap
     links:
@@ -409,3 +123,70 @@ services:
     environment:
       TZ: Asia/Shanghai
       SW_OAP_ADDRESS: oap:12800
+
+
+  namenode:
+    image: bde2020/hadoop-namenode:1.1.0-hadoop2.7.1-java8
+    container_name: namenode
+    hostname: namenode
+#    volumes:
+#      - hadoop_namenode:/hadoop/dfs/name
+    environment:
+      - CLUSTER_NAME=test
+#    env_file:
+#      - ./hadoop.env
+    ports:
+      - "50070:50070"
+      - "8020:8020"
+
+  resourcemanager:
+    image: bde2020/hadoop-resourcemanager:1.1.0-hadoop2.7.1-java8
+    container_name: resourcemanager
+    hostname: resourcemanager
+    depends_on:
+      - namenode
+      - datanode1
+#    env_file:
+#      - ./hadoop.env
+    ports:
+      - "8088:8088"
+
+  historyserver:
+    image: bde2020/hadoop-historyserver:1.1.0-hadoop2.7.1-java8
+    container_name: historyserver
+    hostname: historyserver
+    depends_on:
+      - namenode
+      - datanode1
+#    volumes:
+#      - hadoop_historyserver:/hadoop/yarn/timeline
+#    env_file:
+#      - ./hadoop.env
+    ports:
+      - "8188:8188"
+
+  nodemanager1:
+    image: bde2020/hadoop-nodemanager:1.1.0-hadoop2.7.1-java8
+    container_name: nodemanager1
+    hostname: nodemanager1
+    depends_on:
+      - namenode
+      - datanode1
+#    env_file:
+#      - ./hadoop.env
+    ports:
+      - "8042:8042"
+
+  datanode1:
+    image: bde2020/hadoop-datanode:1.1.0-hadoop2.7.1-java8
+    container_name: datanode1
+    hostname: datanode1
+    ports:
+      - "50075:50075"
+    depends_on:
+      - namenode
+#    volumes:
+#      - hadoop_datanode1:/hadoop/dfs/data
+#    env_file:
+#      - ./hadoop.env
+
