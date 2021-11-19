@@ -75,18 +75,25 @@ services:
   kibana:
     container_name: kibana
     image: kibana:7.6.2
+    restart: always
     ports:
       - "5601:5601"
     environment:
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200
-#       ELASTICSEARCH_HOSTS: http://host.docker.internal:19200
     depends_on:
       - elasticsearch
+
+  kibana1:
+    container_name: kibana1
+    image: kibana:7.6.2
+    ports:
+      - "5602:5601"
+    environment:
+      ELASTICSEARCH_HOSTS: http://host.docker.internal:19200
 
   oap:
     image: apache/skywalking-oap-server:8.3.0-es7
     container_name: skywalking-oap
-    restart: always
     depends_on:
       - elasticsearch
     links:
@@ -113,7 +120,6 @@ services:
   ui:
     image: apache/skywalking-ui:8.3.0
     container_name: skywalking-ui
-    restart: always
     depends_on:
       - oap
     links:
@@ -125,68 +131,9 @@ services:
       SW_OAP_ADDRESS: oap:12800
 
 
-  namenode:
-    image: bde2020/hadoop-namenode:1.1.0-hadoop2.7.1-java8
-    container_name: namenode
-    hostname: namenode
-#    volumes:
-#      - hadoop_namenode:/hadoop/dfs/name
-    environment:
-      - CLUSTER_NAME=test
-#    env_file:
-#      - ./hadoop.env
+  redis:
+    image: redis:alpine
+    container_name: redis1
+    restart: always
     ports:
-      - "50070:50070"
-      - "8020:8020"
-
-  resourcemanager:
-    image: bde2020/hadoop-resourcemanager:1.1.0-hadoop2.7.1-java8
-    container_name: resourcemanager
-    hostname: resourcemanager
-    depends_on:
-      - namenode
-      - datanode1
-#    env_file:
-#      - ./hadoop.env
-    ports:
-      - "8088:8088"
-
-  historyserver:
-    image: bde2020/hadoop-historyserver:1.1.0-hadoop2.7.1-java8
-    container_name: historyserver
-    hostname: historyserver
-    depends_on:
-      - namenode
-      - datanode1
-#    volumes:
-#      - hadoop_historyserver:/hadoop/yarn/timeline
-#    env_file:
-#      - ./hadoop.env
-    ports:
-      - "8188:8188"
-
-  nodemanager1:
-    image: bde2020/hadoop-nodemanager:1.1.0-hadoop2.7.1-java8
-    container_name: nodemanager1
-    hostname: nodemanager1
-    depends_on:
-      - namenode
-      - datanode1
-#    env_file:
-#      - ./hadoop.env
-    ports:
-      - "8042:8042"
-
-  datanode1:
-    image: bde2020/hadoop-datanode:1.1.0-hadoop2.7.1-java8
-    container_name: datanode1
-    hostname: datanode1
-    ports:
-      - "50075:50075"
-    depends_on:
-      - namenode
-#    volumes:
-#      - hadoop_datanode1:/hadoop/dfs/data
-#    env_file:
-#      - ./hadoop.env
-
+      - 6380:6379
