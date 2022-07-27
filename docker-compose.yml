@@ -137,3 +137,15 @@ services:
     restart: always
     ports:
       - 6380:6379
+
+
+  elasticsearchXpack:
+    container_name: elasticsearch
+    image: elasticsearch:7.16.1
+    restart: always
+    ports:
+      - '9200:9200'     #java、集群通信端口
+      - '9300:9300'     #http通信端口
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.type=single-node"
