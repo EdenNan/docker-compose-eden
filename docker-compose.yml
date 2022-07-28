@@ -74,14 +74,12 @@ services:
 
   kibana:
     container_name: kibana
-    image: kibana:7.6.2
+    image: kibana:7.16.1
     restart: always
     ports:
       - "5601:5601"
     environment:
-      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
-    depends_on:
-      - elasticsearch
+      ELASTICSEARCH_HOSTS: http://elasticsearchXpackSingle:9200
 
   kibana1:
     container_name: kibana1
@@ -140,7 +138,7 @@ services:
 
 
   elasticsearchXpack:
-    container_name: elasticsearch
+    container_name: elasticsearchXpack
     image: elasticsearch:7.16.1
     restart: always
     ports:
@@ -148,4 +146,55 @@ services:
       - '9300:9300'     #http通信端口
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "discovery.type=single-node"
+    privileged: true    #环境变量
+    volumes:
+      - type: bind
+        source: ./external_config/elasticsearch/elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+
+
+  elasticsearchXpack1:
+    container_name: elasticsearchXpack1
+    image: elasticsearch:7.16.1
+    restart: always
+    ports:
+      - '9201:9200'     #java、集群通信端口
+      - '9301:9300'     #http通信端口
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    privileged: true    #环境变量
+    volumes:
+      - type: bind
+        source: ./external_config/elasticsearch/elasticsearch1.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+
+
+  elasticsearchXpack2:
+    container_name: elasticsearchXpack2
+    image: elasticsearch:7.16.1
+    restart: always
+    ports:
+      - '9202:9200'     #java、集群通信端口
+      - '9302:9300'     #http通信端口
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    privileged: true    #环境变量
+    volumes:
+      - type: bind
+        source: ./external_config/elasticsearch/elasticsearch2.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+
+  elasticsearchXpackSingle:
+    container_name: elasticsearchXpackSingle
+    image: elasticsearch:7.16.1
+    restart: always
+    ports:
+      - '9203:9200'     #java、集群通信端口
+      - '9303:9300'     #http通信端口
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    privileged: true    #环境变量
+    volumes:
+      - type: bind
+        source: ./external_config/elasticsearch/elasticsearch3.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
